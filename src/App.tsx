@@ -1,122 +1,156 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { Code2, Eye, Upload, X } from 'lucide-react';
+import { Header } from './components/Header';
+import { Toolbar } from './components/Toolbar';
+import { Editor } from './components/Editor';
+import { Preview } from './components/Preview';
+import { MobileTabSwitch } from './components/MobileTabSwitch';
+import { SettingsPanel } from './components/SettingsPanel';
+import { useDebounce } from './hooks/useDebounce';
+import { useFileUpload } from './hooks/useFileUpload';
+import { usePdfExport } from './hooks/usePdfExport';
+import { DEFAULT_MARKDOWN } from './utils/defaultMarkdown';
+import type { AppSettings, MobileTab } from './types';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // ===== State =====
+  const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
+  const [activeTab, setActiveTab] = useState<MobileTab>('editor');
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [settings, setSettings] = useState<AppSettings>({
+    paperSize: 'A4',
+    printTheme: 'default',
+    showPageNumbers: false,
+  });
+
+  const previewRef = useRef<HTMLDivElement>(null);
+  const debouncedMarkdown = useDebounce(markdown, 300);
+
+  // ===== Responsive Detection =====
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // ===== File Upload =====
+  const handleFileLoad = useCallback((content: string, _fileName: string) => {
+    setMarkdown(content);
+    // Pada mobile, switch ke preview setelah upload
+    setActiveTab('preview');
+  }, []);
+
+  const {
+    isDragging,
+    error: uploadError,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
+    handleFileInput,
+    clearError,
+  } = useFileUpload({ onFileLoad: handleFileLoad });
+
+  // ===== PDF Export =====
+  const { exportPdf } = usePdfExport({ settings });
+
+  const handleExportPdf = useCallback(() => {
+    if (previewRef.current) {
+      exportPdf(previewRef.current.innerHTML);
+    }
+  }, [exportPdf]);
+
+  // ===== Clear Editor =====
+  const handleClear = useCallback(() => {
+    setMarkdown('');
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div
+      className="app"
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      <Header />
+      <Toolbar
+        onUploadFile={handleFileInput}
+        onClear={handleClear}
+        onToggleSettings={() => setIsSettingsOpen(!isSettingsOpen)}
+        onExportPdf={handleExportPdf}
+        isSettingsOpen={isSettingsOpen}
+      />
 
-      <div className="ticks"></div>
+      {/* Mobile Tabs */}
+      {isMobile && (
+        <MobileTabSwitch activeTab={activeTab} onTabChange={setActiveTab} />
+      )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Content Area */}
+      <div className={`app-content ${!isMobile ? 'app-content--split' : ''}`}>
+        {/* Editor Panel */}
+        {(!isMobile || activeTab === 'editor') && (
+          <div className="panel panel--editor">
+            {!isMobile && (
+              <div className="panel-label">
+                <Code2 className="panel-label__icon" />
+                <span>Markdown</span>
+                <span className="panel-label__dot" />
+              </div>
+            )}
+            <Editor value={markdown} onChange={setMarkdown} />
+          </div>
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* Preview Panel */}
+        {(!isMobile || activeTab === 'preview') && (
+          <div className="panel">
+            {!isMobile && (
+              <div className="panel-label">
+                <Eye className="panel-label__icon" />
+                <span>Preview</span>
+              </div>
+            )}
+            <Preview ref={previewRef} markdown={debouncedMarkdown} />
+          </div>
+        )}
+      </div>
+
+      {/* Settings Panel */}
+      {isSettingsOpen && (
+        <SettingsPanel
+          settings={settings}
+          onSettingsChange={setSettings}
+          onClose={() => setIsSettingsOpen(false)}
+        />
+      )}
+
+      {/* Drag & Drop Overlay */}
+      {isDragging && (
+        <div className="upload-overlay">
+          <div className="upload-overlay__content">
+            <Upload className="upload-overlay__icon" />
+            <p className="upload-overlay__text">Drop file .md di sini</p>
+            <p className="upload-overlay__hint">.md, .markdown, atau .txt</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error Toast */}
+      {uploadError && (
+        <div className="toast" role="alert">
+          <span>{uploadError}</span>
+          <button className="toast__close" onClick={clearError} aria-label="Tutup">
+            <X size={14} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

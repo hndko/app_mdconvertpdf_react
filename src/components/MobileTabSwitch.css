@@ -1,0 +1,57 @@
+.mobile-tabs {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-tabs {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .mobile-tabs__tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+    position: relative;
+    user-select: none;
+  }
+
+  .mobile-tabs__tab--active {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .mobile-tabs__tab-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .mobile-tabs__indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 50%;
+    background: var(--gradient-accent);
+    border-radius: var(--radius-full) var(--radius-full) 0 0;
+    transition: transform var(--transition-normal);
+  }
+
+  .mobile-tabs__indicator--preview {
+    transform: translateX(100%);
+  }
+}
