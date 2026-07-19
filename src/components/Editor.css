@@ -1,0 +1,68 @@
+.editor-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-wrapper .cm-editor {
+  flex: 1;
+  overflow: auto;
+  background: var(--color-bg-primary);
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.editor-wrapper .cm-editor .cm-content {
+  padding: 16px 20px;
+  caret-color: var(--color-accent-light);
+}
+
+.editor-wrapper .cm-editor .cm-line {
+  padding: 0;
+}
+
+.editor-wrapper .cm-editor .cm-gutters {
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  min-width: 44px;
+}
+
+.editor-wrapper .cm-editor .cm-activeLineGutter {
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
+}
+
+.editor-wrapper .cm-editor .cm-activeLine {
+  background: rgba(124, 58, 237, 0.04);
+}
+
+.editor-wrapper .cm-editor .cm-selectionBackground {
+  background: rgba(124, 58, 237, 0.2) !important;
+}
+
+.editor-wrapper .cm-editor.cm-focused .cm-selectionBackground {
+  background: rgba(124, 58, 237, 0.25) !important;
+}
+
+.editor-wrapper .cm-editor .cm-cursor {
+  border-left-color: var(--color-accent-light);
+  border-left-width: 2px;
+}
+
+.editor-wrapper .cm-editor .cm-scroller {
+  overflow: auto;
+}
+
+.editor-wrapper .cm-editor.cm-focused {
+  outline: none;
+}
+
+/* Placeholder */
+.editor-wrapper .cm-editor .cm-placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
