@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
+      <stop offset="0%" stop-color="#00BCD4"/>
+      <stop offset="100%" stop-color="#1565C0"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <text x="32" y="28" text-anchor="middle" dominant-baseline="central" font-family="system-ui" font-weight="700" font-size="16" fill="white">MD</text>
-  <text x="32" y="44" text-anchor="middle" dominant-baseline="central" font-family="system-ui" font-weight="500" font-size="13" fill="rgba(255,255,255,0.8)">PDF</text>
+  <text x="32" y="32" text-anchor="middle" dominant-baseline="central" font-family="system-ui, sans-serif" font-weight="800" font-size="28" fill="white">MD</text>
 </svg>
