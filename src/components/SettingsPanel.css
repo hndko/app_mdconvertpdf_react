@@ -112,7 +112,7 @@
 .setting-select:focus {
   border-color: var(--color-accent);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.15);
 }
 
 .setting-select option {
@@ -146,7 +146,7 @@
 
 .setting-radio--active {
   border-color: var(--color-accent);
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(0, 188, 212, 0.08);
 }
 
 .setting-radio input {

@@ -50,16 +50,16 @@ function getThemeStyles(theme: AppSettings['printTheme']): string {
       `;
     default:
       return `
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; }
-        h1, h2, h3, h4, h5, h6 { color: #0f0f1a; }
-        code { background: #f0f0ff; padding: 0.2em 0.4em; border-radius: 4px; font-size: 87%; color: #6d28d9; }
-        pre { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #0a1018; }
+        h1, h2, h3, h4, h5, h6 { color: #0a1018; }
+        code { background: #e8f8fa; padding: 0.2em 0.4em; border-radius: 4px; font-size: 87%; color: #00838f; }
+        pre { background: #0f1920; color: #cdd6f4; border-radius: 8px; }
         pre code { background: transparent; padding: 0; color: inherit; border-radius: 0; }
-        blockquote { border-left: 4px solid #7c3aed; background: #f8f6ff; color: #4a4a6a; }
-        table th { background: #f0f0ff; }
-        table td, table th { border: 1px solid #e0e0f0; }
-        hr { border: none; border-top: 2px solid #e8e8f8; }
-        a { color: #7c3aed; }
+        blockquote { border-left: 4px solid #00acc1; background: #e8f8fa; color: #3a5a6a; }
+        table th { background: #e8f8fa; }
+        table td, table th { border: 1px solid #d0e8f0; }
+        hr { border: none; border-top: 2px solid #d0e8f0; }
+        a { color: #00838f; }
       `;
   }
 }

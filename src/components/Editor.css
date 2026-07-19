@@ -37,15 +37,15 @@
 }
 
 .editor-wrapper .cm-editor .cm-activeLine {
-  background: rgba(124, 58, 237, 0.04);
+  background: rgba(0, 188, 212, 0.04);
 }
 
 .editor-wrapper .cm-editor .cm-selectionBackground {
-  background: rgba(124, 58, 237, 0.2) !important;
+  background: rgba(0, 188, 212, 0.2) !important;
 }
 
 .editor-wrapper .cm-editor.cm-focused .cm-selectionBackground {
-  background: rgba(124, 58, 237, 0.25) !important;
+  background: rgba(0, 188, 212, 0.25) !important;
 }
 
 .editor-wrapper .cm-editor .cm-cursor {

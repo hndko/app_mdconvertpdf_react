@@ -1,4 +1,4 @@
-# MD Convert PDF — Konversi Markdown ke PDF Instan 📄
+# MariDocs — Konversi Markdown ke PDF Instan 📄
 
 Website konversi Markdown ke PDF berkualitas cetak — **gratis, tanpa login, langsung di browser**. Semua proses berjalan 100% di client-side sehingga privasi data Anda terjamin.
 
@@ -24,7 +24,7 @@ Website konversi Markdown ke PDF berkualitas cetak — **gratis, tanpa login, la
 
 ## Deskripsi Proyek
 
-**MD Convert PDF** memecahkan masalah umum bagi developer, penulis teknis, dan profesional yang menggunakan Markdown sebagai format penulisan sehari-hari namun membutuhkan output PDF yang rapi untuk dibagikan ke pihak non-teknis.
+**MariDocs** memecahkan masalah umum bagi developer, penulis teknis, dan profesional yang menggunakan Markdown sebagai format penulisan sehari-hari namun membutuhkan output PDF yang rapi untuk dibagikan ke pihak non-teknis.
 
 **Masalah yang diselesaikan:**
 - Tools konversi Markdown ke PDF yang ada umumnya membutuhkan instalasi lokal (Pandoc, VS Code extension)
@@ -32,26 +32,6 @@ Website konversi Markdown ke PDF berkualitas cetak — **gratis, tanpa login, la
 - Hasil PDF sering tidak rapi secara tipografi
 
 **Solusi:** Website berbasis browser yang menghasilkan PDF vektor berkualitas cetak — teks tajam, bisa di-search & di-copy, dengan pagination otomatis.
-
----
-
-## Fitur Utama
-
-- ✅ **Editor Markdown** — CodeMirror 6 dengan syntax highlighting
-- ✅ **Preview Real-Time** — render otomatis saat mengetik (debounce 300ms)
-- ✅ **Ekspor PDF Vektor** — output PDF native browser, teks tajam di segala resolusi
-- ✅ **Upload File .md** — drag & drop atau browse file dari komputer
-- ✅ **Split View** — editor (kiri) dan preview (kanan) di layar lebar
-- ✅ **Responsive Mobile** — tab switch (Editor / Preview) di layar kecil
-- ✅ **Kustomisasi PDF:**
-  - Ukuran kertas: A4 / Letter
-  - Tema cetak: Default / GitHub Style / Minimal
-  - Toggle nomor halaman
-- ✅ **GFM Support** — tabel, strikethrough, task list, dan fitur GitHub Flavored Markdown lainnya
-- ✅ **Code Highlighting** — syntax highlighting untuk 100+ bahasa pemrograman
-- ✅ **Dark Mode** — tampilan elegan dengan desain modern
-- ✅ **100% Client-Side** — tidak ada data yang dikirim ke server
-- ✅ **Nama File Otomatis** — nama file PDF diambil dari heading H1 pertama
 
 ---
 
@@ -71,8 +51,8 @@ Pastikan Anda sudah menginstal:
 1. **Clone repository:**
 
 ```bash
-git clone https://github.com/username/md-convert-pdf.git
-cd md-convert-pdf
+git clone https://github.com/username/maridocs.git
+cd maridocs
 ```
 
 2. **Install dependencies:**
@@ -127,10 +107,30 @@ npm run preview
 
 ---
 
+## Fitur Utama
+
+- ✅ **Editor Markdown** — CodeMirror 6 dengan syntax highlighting
+- ✅ **Preview Real-Time** — render otomatis saat mengetik (debounce 300ms)
+- ✅ **Ekspor PDF Vektor** — output PDF native browser, teks tajam di segala resolusi
+- ✅ **Upload File .md** — drag & drop atau browse file dari komputer
+- ✅ **Split View** — editor (kiri) dan preview (kanan) di layar lebar
+- ✅ **Responsive Mobile** — tab switch (Editor / Preview) di layar kecil
+- ✅ **Kustomisasi PDF:**
+  - Ukuran kertas: A4 / Letter
+  - Tema cetak: Default / GitHub Style / Minimal
+  - Toggle nomor halaman
+- ✅ **GFM Support** — tabel, strikethrough, task list, dan fitur GitHub Flavored Markdown lainnya
+- ✅ **Code Highlighting** — syntax highlighting untuk 100+ bahasa pemrograman
+- ✅ **Dark Mode** — tampilan elegan dengan desain modern (Mari Partner Branding)
+- ✅ **100% Client-Side** — tidak ada data yang dikirim ke server
+- ✅ **Nama File Otomatis** — nama file PDF diambil dari heading H1 pertama
+
+---
+
 ## Struktur Proyek
 
 ```
-md-convert-pdf/
+maridocs/
 ├── public/
 │   └── favicon.svg               # Ikon favicon
 ├── src/
@@ -274,22 +274,22 @@ npm run build
 
 ```bash
 # Via SCP
-scp -r dist/* user@your-server-ip:/var/www/md-convert-pdf/
+scp -r dist/* user@your-server-ip:/var/www/maridocs/
 
 # Atau via rsync (lebih efisien)
-rsync -avz --delete dist/ user@your-server-ip:/var/www/md-convert-pdf/
+rsync -avz --delete dist/ user@your-server-ip:/var/www/maridocs/
 ```
 
 **Langkah 3 — Konfigurasi Nginx:**
 
-Buat file konfigurasi di `/etc/nginx/sites-available/md-convert-pdf`:
+Buat file konfigurasi di `/etc/nginx/sites-available/maridocs`:
 
 ```nginx
 server {
     listen 80;
     server_name your-domain.com;  # Ganti dengan domain Anda
 
-    root /var/www/md-convert-pdf;
+    root /var/www/maridocs;
     index index.html;
 
     # Gzip compression
@@ -319,7 +319,7 @@ server {
 
 ```bash
 # Buat symlink
-sudo ln -s /etc/nginx/sites-available/md-convert-pdf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/maridocs /etc/nginx/sites-enabled/
 
 # Test konfigurasi
 sudo nginx -t
@@ -394,7 +394,7 @@ Proyek ini dilisensikan di bawah **MIT License**.
 ```
 MIT License
 
-Copyright (c) 2026 MD Convert PDF
+Copyright (c) 2026 MariDocs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

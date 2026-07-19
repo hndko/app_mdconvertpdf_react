@@ -92,7 +92,7 @@
 /* Active state */
 .toolbar-btn--active {
   color: var(--color-accent-light);
-  background: rgba(124, 58, 237, 0.12);
+  background: rgba(0, 188, 212, 0.12);
   border-color: var(--color-border-accent);
 }
 
