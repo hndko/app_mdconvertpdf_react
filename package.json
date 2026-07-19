@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "📄 Konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara instan, 100% aman di browser tanpa login. ⚡",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
