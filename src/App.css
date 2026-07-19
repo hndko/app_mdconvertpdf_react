@@ -1,0 +1,166 @@
+/* ===== App Layout ===== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Desktop: Split View */
+.app-content--split {
+  flex-direction: row;
+}
+
+/* Panel containers */
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.panel--editor {
+  border-right: 1px solid var(--color-border);
+}
+
+.panel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  user-select: none;
+}
+
+.panel-label__icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+.panel-label__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-success);
+  margin-left: auto;
+  animation: pulse 2s infinite;
+}
+
+/* ===== Divider ===== */
+.divider {
+  width: 1px;
+  background: var(--color-border);
+  position: relative;
+  cursor: col-resize;
+  flex-shrink: 0;
+}
+
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -3px;
+  right: -3px;
+  bottom: 0;
+}
+
+.divider:hover {
+  background: var(--color-accent);
+}
+
+/* ===== File Upload Overlay ===== */
+.upload-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.upload-overlay__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 64px;
+  border: 2px dashed var(--color-accent);
+  border-radius: var(--radius-xl);
+  animation: borderPulse 1.5s infinite;
+}
+
+.upload-overlay__icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-accent-light);
+}
+
+.upload-overlay__text {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.upload-overlay__hint {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* ===== Toast / Error ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--color-error);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+.toast__close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.toast__close:hover {
+  opacity: 1;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .panel-label {
+    display: none;
+  }
+}
