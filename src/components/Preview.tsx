@@ -40,7 +40,7 @@ export const Preview = forwardRef<HTMLDivElement, PreviewProps>(
                     <SyntaxHighlighter
                       style={oneDark}
                       language={match[1]}
-                      PreTag="div"
+                      PreTag="pre"
                       customStyle={{
                         margin: 0,
                         padding: '16px 20px',

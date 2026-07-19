@@ -75,13 +75,11 @@ export function generatePrintStyles(settings: AppSettings): string {
 
     ${getPageNumberStyles(settings.showPageNumbers)}
 
-    * {
+    /* Reset some defaults but don't use * selector as it strips nested margins */
+    body {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    body {
       font-size: 14px;
       line-height: 1.7;
       word-wrap: break-word;
@@ -91,7 +89,8 @@ export function generatePrintStyles(settings: AppSettings): string {
     ${getThemeStyles(settings.printTheme)}
 
     /* Headings */
-    h1 { font-size: 26px; margin-top: 0; margin-bottom: 16px; font-weight: 700; line-height: 1.25; }
+    h1 { font-size: 26px; margin-top: 24px; margin-bottom: 16px; font-weight: 700; line-height: 1.3; }
+    h1:first-child { margin-top: 0; }
     h2 { font-size: 22px; margin-top: 28px; margin-bottom: 14px; font-weight: 650; line-height: 1.3; }
     h3 { font-size: 18px; margin-top: 24px; margin-bottom: 12px; font-weight: 600; line-height: 1.35; }
     h4 { font-size: 16px; margin-top: 20px; margin-bottom: 10px; font-weight: 600; line-height: 1.4; }
@@ -102,11 +101,11 @@ export function generatePrintStyles(settings: AppSettings): string {
     p { margin-bottom: 14px; }
 
     /* Lists */
-    ul, ol { margin-bottom: 14px; padding-left: 1.5em; }
-    li { margin-bottom: 4px; }
-    li > p { margin-bottom: 4px; display: inline; }
+    ul, ol { margin-top: 8px; margin-bottom: 16px; padding-left: 2em; }
+    li { margin-bottom: 6px; }
+    li > p { margin: 0; display: inline; }
     li.task-list-item { list-style-type: none; margin-left: -1.5em; }
-    input[type="checkbox"] { margin-right: 8px; vertical-align: middle; }
+    .task-list-item input[type="checkbox"] { margin-right: 8px; vertical-align: middle; }
 
     /* Code Block Overrides (Force light mode for print to override SyntaxHighlighter) */
     code { 
@@ -114,15 +113,16 @@ export function generatePrintStyles(settings: AppSettings): string {
       word-break: break-word !important; 
       white-space: pre-wrap !important;
     }
-    pre, pre div { 
-      padding: 12px !important; 
-      margin-bottom: 16px !important; 
+    pre { 
+      padding: 16px !important; 
+      margin: 16px 0 !important; 
       overflow-x: hidden !important; 
-      line-height: 1.5 !important;
+      line-height: 1.6 !important;
       white-space: pre-wrap !important;
-      word-break: break-all !important;
+      word-break: break-word !important;
       background: #f8f9fa !important;
       border: 1px solid #dee2e6 !important;
+      border-radius: 6px !important;
     }
     pre code, pre span {
       background: transparent !important;
