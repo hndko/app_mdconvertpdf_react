@@ -102,20 +102,41 @@ export function generatePrintStyles(settings: AppSettings): string {
     p { margin-bottom: 14px; }
 
     /* Lists */
-    ul, ol { margin-bottom: 14px; padding-left: 2em; }
+    ul, ol { margin-bottom: 14px; padding-left: 1.5em; }
     li { margin-bottom: 4px; }
-    li > p { margin-bottom: 4px; }
+    li > p { margin-bottom: 4px; display: inline; }
+    li.task-list-item { list-style-type: none; margin-left: -1.5em; }
+    input[type="checkbox"] { margin-right: 8px; vertical-align: middle; }
 
-    /* Code */
-    code { font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; }
-    pre { padding: 16px; margin-bottom: 16px; overflow-x: auto; line-height: 1.5; }
+    /* Code Block Overrides (Force light mode for print to override SyntaxHighlighter) */
+    code { 
+      font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace !important; 
+      word-break: break-word !important; 
+      white-space: pre-wrap !important;
+    }
+    pre, pre div { 
+      padding: 12px !important; 
+      margin-bottom: 16px !important; 
+      overflow-x: hidden !important; 
+      line-height: 1.5 !important;
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+      background: #f8f9fa !important;
+      border: 1px solid #dee2e6 !important;
+    }
+    pre code, pre span {
+      background: transparent !important;
+      color: #212529 !important;
+      text-shadow: none !important;
+    }
 
     /* Blockquote */
-    blockquote { padding: 12px 16px; margin-bottom: 14px; }
+    blockquote { padding: 12px 16px; margin-bottom: 14px; page-break-inside: avoid; }
     blockquote > p:last-child { margin-bottom: 0; }
 
     /* Table */
-    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; page-break-inside: auto; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
     th, td { padding: 8px 12px; text-align: left; }
     th { font-weight: 600; }
 
@@ -123,10 +144,11 @@ export function generatePrintStyles(settings: AppSettings): string {
     hr { margin: 24px 0; }
 
     /* Images */
-    img { max-width: 100%; height: auto; margin: 12px 0; }
+    img { max-width: 100% !important; height: auto !important; margin: 12px 0; display: block; }
+    figure { margin: 0; padding: 0; page-break-inside: avoid; }
 
     /* Links */
-    a { text-decoration: none; }
+    a { text-decoration: none; word-wrap: break-word; overflow-wrap: break-word; }
 
     /* Strong & Emphasis */
     strong { font-weight: 650; }
@@ -140,12 +162,12 @@ export function generatePrintStyles(settings: AppSettings): string {
       page-break-after: avoid;
     }
 
-    pre, blockquote, table, img, figure {
+    pre, blockquote, img, figure {
       break-inside: avoid;
       page-break-inside: avoid;
     }
 
-    p {
+    p, li {
       orphans: 3;
       widows: 3;
     }

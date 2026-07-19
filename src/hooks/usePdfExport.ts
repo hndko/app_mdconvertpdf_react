@@ -62,15 +62,26 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
       `);
       doc.close();
 
-      // Tunggu font loading selesai sebelum print
+      // Tunggu font dan gambar loading selesai sebelum print
       iframe.onload = () => {
-        setTimeout(() => {
-          iframe.contentWindow?.print();
-          // Bersihkan setelah print dialog ditutup
+        const images = doc.getElementsByTagName('img');
+        const imagePromises = Array.from(images).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve; // Ignore errors, just proceed
+          });
+        });
+
+        Promise.all(imagePromises).then(() => {
           setTimeout(() => {
-            document.body.removeChild(iframe);
-          }, 1000);
-        }, 500);
+            iframe.contentWindow?.print();
+            // Bersihkan setelah print dialog ditutup
+            setTimeout(() => {
+              document.body.removeChild(iframe);
+            }, 1000);
+          }, 500);
+        });
       };
     },
     [settings]
