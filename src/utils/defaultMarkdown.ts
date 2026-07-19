@@ -1,4 +1,4 @@
-export const DEFAULT_MARKDOWN = `# Selamat Datang di MD Convert PDF 📄
+export const DEFAULT_MARKDOWN = `# Selamat Datang di MariDocs 📄
 
 Ketik atau tempel teks **Markdown** di panel editor, lalu lihat hasilnya secara *real-time* di panel preview.
 
@@ -28,7 +28,7 @@ Ini adalah teks **bold**, *italic*, dan ~~strikethrough~~. Kamu juga bisa menuli
 
 ### Ordered List
 
-1. Buka website MD Convert PDF
+1. Buka website MariDocs
 2. Ketik atau paste Markdown
 3. Klik tombol **Unduh PDF**
 4. Selesai! 🎉

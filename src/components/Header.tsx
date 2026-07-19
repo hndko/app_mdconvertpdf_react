@@ -6,13 +6,13 @@ export function Header() {
       <div className="header__brand">
         <div className="header__logo" aria-hidden="true">
           <div className="header__logo-text">
-            <span>MD</span>
-            <span>PDF</span>
+            <span>Mari</span>
+            <span>Docs</span>
           </div>
         </div>
         <div>
           <h1 className="header__title">
-            MD <span className="header__title-accent">Convert</span> PDF
+            Mari<span className="header__title-accent">Docs</span>
           </h1>
           <p className="header__subtitle">Markdown → PDF berkualitas cetak</p>
         </div>
