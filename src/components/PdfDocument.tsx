@@ -11,6 +11,19 @@ interface PdfDocumentProps {
   fileName: string;
 }
 
+// Hapus node teks yang hanya berisi whitespace agar react-pdf tidak error
+// ("Invalid '\n' string child outside <Text>"). Tanpa dependency ekstra.
+function remarkStripWhitespace() {
+  const strip = (node: any) => {
+    if (!node || !Array.isArray(node.children)) return;
+    node.children = node.children.filter(
+      (n: any) => !(n.type === 'text' && (!n.value || n.value.trim() === ''))
+    );
+    node.children.forEach(strip);
+  };
+  return (tree: any) => strip(tree);
+}
+
 const PAPER_SIZE: Record<AppSettings['paperSize'], { width: string; height: string }> = {
   A4: { width: '210mm', height: '297mm' },
   Letter: { width: '215.9mm', height: '279.4mm' },
@@ -82,7 +95,7 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
         style={{ paddingTop: 20, paddingBottom: 20, paddingHorizontal: 18, ...theme.body }}
       >
         <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
+          remarkPlugins={[remarkGfm, remarkStripWhitespace]}
           rehypePlugins={[rehypeSanitize]}
           components={components as any}
         >
