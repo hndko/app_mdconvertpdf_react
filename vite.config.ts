@@ -27,6 +27,9 @@ export default defineConfig({
             if (id.includes('react-syntax-highlighter') || id.includes('refractor') || id.includes('highlight.js')) {
               return 'highlighter';
             }
+            if (id.includes('@react-pdf') || id.includes('pdfkit') || id.includes('fontkit') || id.includes('yoga')) {
+              return 'pdf';
+            }
           }
         },
       },

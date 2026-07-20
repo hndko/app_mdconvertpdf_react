@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Code2, Eye, Upload, X } from 'lucide-react';
 import { Header } from './components/Header';
 import { Toolbar } from './components/Toolbar';
@@ -25,7 +25,6 @@ function App() {
     showPageNumbers: false,
   });
 
-  const previewRef = useRef<HTMLDivElement>(null);
   const debouncedMarkdown = useDebounce(markdown, 300);
 
   // ===== Responsive Detection =====
@@ -58,10 +57,8 @@ function App() {
   const { exportPdf } = usePdfExport({ settings });
 
   const handleExportPdf = useCallback(() => {
-    if (previewRef.current) {
-      exportPdf(previewRef.current.innerHTML);
-    }
-  }, [exportPdf]);
+    exportPdf(markdown);
+  }, [exportPdf, markdown]);
 
   // ===== Clear Editor =====
   const handleClear = useCallback(() => {
@@ -115,7 +112,7 @@ function App() {
                 <span>Preview</span>
               </div>
             )}
-            <Preview ref={previewRef} markdown={debouncedMarkdown} />
+            <Preview markdown={debouncedMarkdown} />
           </div>
         )}
       </div>

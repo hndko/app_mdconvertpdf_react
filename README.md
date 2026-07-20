@@ -40,7 +40,7 @@
 
 - ✅ **Editor Markdown** — CodeMirror 6 dengan syntax highlighting
 - ✅ **Preview Real-Time** — render otomatis saat mengetik (debounce 300ms)
-- ✅ **Ekspor PDF Vektor** — output PDF native browser, teks tajam di segala resolusi
+- ✅ **Ekspor PDF Vektor** — unduh langsung via `@react-pdf/renderer`, teks asli (bisa di-select & search), tanpa dialog print browser
 - ✅ **Upload File .md** — drag & drop atau browse file dari komputer
 - ✅ **Split View** — editor (kiri) dan preview (kanan) di layar lebar
 - ✅ **Responsive Mobile** — tab switch (Editor / Preview) di layar kecil
@@ -66,7 +66,7 @@
 | **Markdown Parser** | react-markdown + remark-gfm | Render aman tanpa `dangerouslySetInnerHTML` |
 | **Syntax Highlighting** | react-syntax-highlighter (Prism) | 100+ bahasa pemrograman |
 | **Editor** | CodeMirror 6 (`@uiw/react-codemirror`) | Editor kaya fitur dengan markdown mode |
-| **PDF Generator** | `window.print()` + iframe + Print CSS | PDF vektor native, teks tajam |
+| **PDF Generator** | `@react-pdf/renderer` (vector) | Unduh langsung, teks bisa di-select & search, dukungan page number native |
 | **Icons** | Lucide React | Ikon SVG yang konsisten |
 | **Font** | Inter + JetBrains Mono | Google Fonts |
 
