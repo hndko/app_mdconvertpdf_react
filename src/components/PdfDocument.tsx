@@ -11,9 +11,9 @@ interface PdfDocumentProps {
   fileName: string;
 }
 
-// Hapus node teks yang hanya berisi whitespace agar react-pdf tidak error
-// ("Invalid '\n' string child outside <Text>"). Tanpa dependency ekstra.
-function remarkStripWhitespace() {
+// Hapus node teks whitespace-only di level HAST (final tree sebelum render).
+// remark plugin tidak cukup karena remark-rehype bisa memasukkan ulang whitespace.
+function rehypeStripWhitespace() {
   const strip = (node: any) => {
     if (!node || !Array.isArray(node.children)) return;
     node.children = node.children.filter(
@@ -77,8 +77,12 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
     thead: ({ children }: any) => <View>{children}</View>,
     tbody: ({ children }: any) => <View>{children}</View>,
     tr: ({ children }: any) => <View style={{ flexDirection: 'row' }}>{children}</View>,
-    th: ({ children }: any) => <View style={theme.th}><Text>{children}</Text></View>,
-    td: ({ children }: any) => <View style={theme.td}><Text>{children}</Text></View>,
+    th: ({ children }: any) => (
+      <View style={[theme.th, { flex: 1 }]}><Text style={{ fontWeight: 600 }}>{children}</Text></View>
+    ),
+    td: ({ children }: any) => (
+      <View style={[theme.td, { flex: 1 }]}><Text>{children}</Text></View>
+    ),
     img: ({ src, alt }: any) => {
       try {
         return <Image src={src} style={theme.img} />;
@@ -95,11 +99,11 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
         style={{ paddingTop: 20, paddingBottom: 20, paddingHorizontal: 18, ...theme.body }}
       >
         <ReactMarkdown
-          remarkPlugins={[remarkGfm, remarkStripWhitespace]}
-          rehypePlugins={[rehypeSanitize]}
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeStripWhitespace, rehypeSanitize]}
           components={components as any}
         >
-          {markdown}
+          {markdown.trim()}
         </ReactMarkdown>
 
         {settings.showPageNumbers && (
