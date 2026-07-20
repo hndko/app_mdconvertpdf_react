@@ -3,14 +3,20 @@ import { useCallback, useRef, useState } from 'react';
 interface UseFileUploadOptions {
   onFileLoad: (content: string, fileName: string) => void;
   acceptedExtensions?: string[];
+  maxSizeBytes?: number;
 }
+
+const DEFAULT_MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export function useFileUpload({
   onFileLoad,
   acceptedExtensions = ['.md', '.markdown', '.txt'],
+  maxSizeBytes = DEFAULT_MAX_SIZE,
 }: UseFileUploadOptions) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Penghitung drag enter/leave bersarang agar overlay tidak berkedip
+  // saat elemen anak memicu dragleave.
   const dragCounterRef = useRef(0);
 
   const isValidFile = useCallback(
@@ -25,6 +31,12 @@ export function useFileUpload({
     (file: File) => {
       if (!isValidFile(file.name)) {
         setError(`Format file tidak didukung. Gunakan: ${acceptedExtensions.join(', ')}`);
+        return;
+      }
+
+      if (file.size > maxSizeBytes) {
+        const mb = Math.round(maxSizeBytes / (1024 * 1024));
+        setError(`Ukuran file melebihi batas maksimal ${mb} MB.`);
         return;
       }
 

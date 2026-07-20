@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FileText } from 'lucide-react';
@@ -30,6 +31,7 @@ export const Preview = forwardRef<HTMLDivElement, PreviewProps>(
         <div className="markdown-body" ref={ref}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeSanitize]}
             components={{
               code({ className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || '');

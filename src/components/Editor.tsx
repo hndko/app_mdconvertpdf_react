@@ -21,7 +21,7 @@ const darkTheme = EditorView.theme({
     borderLeftColor: 'var(--color-accent-light)',
   },
   '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
-    backgroundColor: 'rgba(0, 188, 212, 0.25)'
+    backgroundColor: 'rgba(0, 172, 193, 0.25)'
   },
   '.cm-gutters': {
     backgroundColor: 'var(--color-bg-secondary)',
@@ -34,7 +34,7 @@ const darkTheme = EditorView.theme({
     color: 'var(--color-text-secondary)',
   },
   '.cm-activeLine': {
-    backgroundColor: 'rgba(0, 188, 212, 0.04)',
+    backgroundColor: 'rgba(0, 172, 193, 0.04)',
   },
 });
 

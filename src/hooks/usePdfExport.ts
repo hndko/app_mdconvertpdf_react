@@ -7,7 +7,8 @@ interface UsePdfExportOptions {
 }
 
 /**
- * Ekstrak heading H1 pertama dari konten HTML untuk dijadikan nama file.
+ * Ekstrak heading H1 pertama dari konten HTML untuk dijadikan nama file PDF.
+ * Mengambil teks bersih (tanpa tag) dan membuang karakter ilegal pada nama file.
  */
 function extractTitle(html: string): string {
   const match = html.match(/<h1[^>]*>(.*?)<\/h1>/i);
@@ -50,9 +51,6 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
         <head>
           <meta charset="UTF-8" />
           <title>${title}</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
           <style>${printCss}</style>
         </head>
         <body>
@@ -73,7 +71,10 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
           });
         });
 
-        Promise.all(imagePromises).then(() => {
+        const fontsReady =
+          'fonts' in document ? document.fonts.ready : Promise.resolve();
+
+        Promise.all([...imagePromises, fontsReady]).then(() => {
           setTimeout(() => {
             iframe.contentWindow?.print();
             // Bersihkan setelah print dialog ditutup
