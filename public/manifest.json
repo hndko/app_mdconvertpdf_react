@@ -1,0 +1,17 @@
+{
+  "name": "MariDocs — Markdown ke PDF Instan",
+  "short_name": "MariDocs",
+  "description": "Konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara instan 100% di browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f14",
+  "theme_color": "#00acc1",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -53,11 +53,95 @@ export function SettingsPanel({ settings, onSettingsChange, onClose }: SettingsP
             </select>
           </div>
 
+          {/* Font Family */}
+          <div className="setting-group">
+            <label className="setting-group__label" htmlFor="select-font-family">
+              Font Dokumen
+            </label>
+            <select
+              className="setting-select"
+              id="select-font-family"
+              value={settings.fontFamily || 'Inter'}
+              onChange={(e) =>
+                onSettingsChange({
+                  ...settings,
+                  fontFamily: e.target.value as AppSettings['fontFamily'],
+                })
+              }
+            >
+              <option value="Inter">Inter (Sans-Serif Modern)</option>
+              <option value="Merriweather">Helvetica / Georgia (Classic Serif)</option>
+              <option value="JetBrains Mono">JetBrains Mono (Monospace Code)</option>
+            </select>
+          </div>
+
+          {/* Margin Size */}
+          <div className="setting-group">
+            <label className="setting-group__label" htmlFor="select-margin-size">
+              Ukuran Margin Kertas
+            </label>
+            <select
+              className="setting-select"
+              id="select-margin-size"
+              value={settings.marginSize || 'normal'}
+              onChange={(e) =>
+                onSettingsChange({
+                  ...settings,
+                  marginSize: e.target.value as AppSettings['marginSize'],
+                })
+              }
+            >
+              <option value="compact">Tipis / Compact (15mm)</option>
+              <option value="normal">Normal (24mm)</option>
+              <option value="spacious">Lebar / Spacious (32mm)</option>
+            </select>
+          </div>
+
+          {/* Custom Header */}
+          <div className="setting-group">
+            <label className="setting-group__label" htmlFor="input-header-text">
+              Header Custom (Bagian Atas)
+            </label>
+            <input
+              type="text"
+              id="input-header-text"
+              className="setting-select"
+              placeholder="Contoh: Draf Rahasia / Dokumen Resmi"
+              value={settings.headerText || ''}
+              onChange={(e) =>
+                onSettingsChange({
+                  ...settings,
+                  headerText: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          {/* Custom Footer */}
+          <div className="setting-group">
+            <label className="setting-group__label" htmlFor="input-footer-text">
+              Footer Custom (Bagian Bawah)
+            </label>
+            <input
+              type="text"
+              id="input-footer-text"
+              className="setting-select"
+              placeholder="Contoh: Hak Cipta © MariDocs 2026"
+              value={settings.footerText || ''}
+              onChange={(e) =>
+                onSettingsChange({
+                  ...settings,
+                  footerText: e.target.value,
+                })
+              }
+            />
+          </div>
+
           {/* Print Theme */}
           <div className="setting-group">
             <span className="setting-group__label">Tema Cetak</span>
             <p className="setting-group__description">
-              Mempengaruhi tampilan font, warna, dan style di output PDF.
+              Mempengaruhi warna dan gaya aksen di PDF.
             </p>
             <div className="setting-radio-group">
               {themes.map((theme) => (

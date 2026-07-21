@@ -105,9 +105,16 @@ const PAPER_SIZE: Record<AppSettings['paperSize'], 'A4' | 'LETTER'> = {
   Letter: 'LETTER',
 };
 
+const MARGIN_MAP: Record<string, number> = {
+  compact: 15,
+  normal: 24,
+  spacious: 32,
+};
+
 export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) {
   const theme = getPdfTheme(settings.printTheme);
   const paper = PAPER_SIZE[settings.paperSize];
+  const marginPx = MARGIN_MAP[settings.marginSize || 'normal'] || 24;
 
   const components = {
     h1: ({ children }: any) => <Text style={theme.h1} wrap={false}>{processPdfChildren(children, 22)}</Text>,
@@ -180,8 +187,31 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
     <Document title={fileName} author="MariDocs">
       <Page
         size={paper}
-        style={{ paddingTop: 24, paddingBottom: 28, paddingHorizontal: 24, ...theme.body }}
+        style={{
+          paddingTop: settings.headerText ? 36 : marginPx,
+          paddingBottom: settings.showPageNumbers || settings.footerText ? 36 : marginPx,
+          paddingHorizontal: marginPx,
+          ...theme.body,
+        }}
       >
+        {settings.headerText && (
+          <Text
+            style={{
+              position: 'absolute',
+              top: 12,
+              left: marginPx,
+              right: marginPx,
+              fontSize: 8,
+              color: '#666666',
+              borderBottom: '1pt solid #dddddd',
+              paddingBottom: 4,
+            }}
+            fixed
+          >
+            {settings.headerText}
+          </Text>
+        )}
+
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeStripWhitespace, rehypeSanitize]}
@@ -190,12 +220,31 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
           {markdown.trim()}
         </ReactMarkdown>
 
-        {settings.showPageNumbers && (
-          <Text
-            style={[theme.pageNumber, { position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center' }]}
-            render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        {(settings.showPageNumbers || settings.footerText) && (
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 12,
+              left: marginPx,
+              right: marginPx,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTop: '1pt solid #dddddd',
+              paddingTop: 4,
+            }}
             fixed
-          />
+          >
+            <Text style={{ fontSize: 8, color: '#666666' }}>
+              {settings.footerText || ''}
+            </Text>
+            {settings.showPageNumbers && (
+              <Text
+                style={{ fontSize: 8, color: '#666666' }}
+                render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+              />
+            )}
+          </View>
         )}
       </Page>
     </Document>

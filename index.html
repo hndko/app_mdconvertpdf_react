@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Konversi Markdown ke PDF berkualitas cetak — gratis, tanpa login, langsung di browser. Cepat, aman, dan privat." />
     <meta name="keywords" content="markdown, pdf, converter, markdown to pdf, konversi, gratis, online" />
     <meta name="author" content="MariDocs" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#00acc1" />
     <meta property="og:title" content="MariDocs — Markdown ke PDF Instan" />
     <meta property="og:description" content="Konversi Markdown ke PDF berkualitas cetak — gratis, tanpa login, langsung di browser." />
     <meta property="og:type" content="website" />
@@ -19,5 +20,14 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration failed: ', err);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

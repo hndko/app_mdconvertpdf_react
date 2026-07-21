@@ -3,6 +3,7 @@ Website konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara inst
 
 ## 📑 Daftar Isi
 - [Deskripsi Proyek](#-deskripsi-proyek)
+- [Fitur Utama](#-fitur-utama)
 - [Prasyarat](#-prasyarat)
 - [Instalasi](#-instalasi)
 - [Penggunaan](#-penggunaan)
@@ -10,19 +11,28 @@ Website konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara inst
 - [Lisensi](#-lisensi)
 
 ## 📌 Deskripsi Proyek
-**MariDocs** adalah aplikasi web yang ditujukan bagi developer dan penulis teknis untuk mengubah tulisan berformat Markdown menjadi dokumen PDF yang rapi. 
+**MariDocs** adalah aplikasi web modern yang ditujukan bagi developer, penulis teknis, dan profesional untuk mengubah tulisan berformat Markdown menjadi dokumen PDF yang rapi, indah, dan tajam. 
 
-**Masalah yang Diselesaikan:**
-* Alat konversi biasa memerlukan instalasi lokal (seperti Pandoc) yang merepotkan.
-* Layanan online sering kali berbayar, memberikan watermark, atau mengharuskan pendaftaran akun.
-* Hasil cetak ke PDF sering kali memiliki tipografi yang kurang rapi atau resolusi yang rendah.
+## ✨ Fitur Utama
 
-**Fitur Utama:**
-* **100% Client-Side:** Proses konversi berjalan sepenuhnya di browser sehingga privasi data Anda terjamin.
-* **Tanpa Login:** Aplikasi dapat diakses secara gratis tanpa batasan penggunaan.
-* **Editor Real-Time:** Dilengkapi CodeMirror 6 dengan fitur *syntax highlighting*.
-* **Ekspor Vektor PDF:** Menghasilkan dokumen dengan teks yang tajam, dapat disalin, dan dicari.
-* **Kustomisasi Cetak:** Mendukung pilihan ukuran kertas (A4/Letter), tema cetak, dan penomoran halaman.
+1. **📊 Diagram & Notasi Matematika:**
+   - Dukungan diagram **Mermaid.js** (flowchart, sequence, class diagram).
+   - Rendering rumus matematika LaTeX menggunakan **KaTeX** (`$E = mc^2$`).
+2. **💾 Penyimpanan Otomatis & Riwayat Lokal:**
+   - *Auto-save* draf otomatis ke `localStorage` tanpa takut kehilangan tulisan.
+   - Fitur **Riwayat Dokumen** untuk menyimpan hingga 10 draf dokumen lokal.
+3. **🎨 Kustomisasi PDF Tingkat Lanjut:**
+   - Pilihan Font Family (Inter, Merriweather, JetBrains Mono).
+   - Kontrol ukuran margin kertas (Compact, Normal, Spacious).
+   - Penambahan Teks Header & Footer custom pada dokumen PDF.
+4. **📄 Ekspor Multi-Format & Impor URL:**
+   - Unduh dokumen sebagai **PDF Vektor**, **Raw Markdown (.md)**, atau **HTML Webpage (.html)**.
+   - Fitur impor dokumen dari URL publik (misal Raw GitHub / Gist).
+5. **📑 Preset Template Ready-to-Use:**
+   - 5 pilihan template siap pakai: README Proyek, CV/Resume Professional, Catatan Rapat, Dokumentasi API, dan Surat Perjanjian.
+6. **📱 PWA & Offline Mode:**
+   - Dapat diinstal sebagai aplikasi desktop/HP (**Progressive Web App**).
+   - 100% berjalan secara *offline* melalui Service Worker.
 
 ## 📋 Prasyarat
 Pastikan perangkat Anda sudah terpasang perangkat lunak dengan versi minimum berikut:
@@ -37,8 +47,8 @@ Ikuti langkah-langkah perintah terminal di bawah ini untuk memasang proyek secar
 
 1. Clone repository ke dalam perangkat lokal:
 ```bash
-git clone https://github.com/username/maridocs.git
-cd maridocs
+git clone https://github.com/hndko/app_mdconvertpdf_react.git
+cd app_mdconvertpdf_react
 ```
 
 2. Pasang semua dependensi yang dibutuhkan:
@@ -57,15 +67,22 @@ Setelah server pengembangan berjalan, Anda dapat mengakses aplikasi pada browser
 * **Menulis Markdown:**
   Ketik format Markdown langsung pada panel editor di sebelah kiri.
   ```markdown
-  # Judul Dokumen
-  Ini adalah contoh paragraf di dalam aplikasi **MariDocs**.
+  # Judul Dokumen 📄
+  
+  Rumus matematika: $E = mc^2$
+  
+  ```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
   ```
+  ```
+* **Menggunakan Template:**
+  Klik tombol **Template** di toolbar untuk memilih format awal dokumen.
 * **Melihat Preview:**
   Panel sebelah kanan akan langsung memperbarui hasil *render* Markdown Anda secara *real-time*.
-* **Mengunggah File:**
-  Gunakan fitur *drag & drop* atau klik tombol unggah untuk memasukkan file `.md` dari komputer Anda.
-* **Mengunduh PDF:**
-  Klik tombol unduh untuk menyimpan hasil dokumen dalam bentuk PDF (nama file akan otomatis mengikuti *heading* H1 pertama dokumen Anda).
+* **Mengunduh PDF / Markdown / HTML:**
+  Klik tombol **Unduh PDF** atau pilih opsi ekspor lainnya melalui tombol dropdown.
 
 ## 🤝 Kontribusi
 Pengembang luar sangat diizinkan untuk ikut memperbarui kode proyek ini. Silakan ikuti aturan berikut:

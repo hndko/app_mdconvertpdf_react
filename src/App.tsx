@@ -6,26 +6,47 @@ import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
 import { MobileTabSwitch } from './components/MobileTabSwitch';
 import { SettingsPanel } from './components/SettingsPanel';
+import { HistoryModal } from './components/HistoryModal';
+import { TemplateModal } from './components/TemplateModal';
+import { ImportUrlModal } from './components/ImportUrlModal';
 import { useDebounce } from './hooks/useDebounce';
 import { useFileUpload } from './hooks/useFileUpload';
 import { usePdfExport } from './hooks/usePdfExport';
 import { DEFAULT_MARKDOWN } from './utils/defaultMarkdown';
+import { getSavedDraft, saveDraft, saveToHistory } from './utils/storage';
+import { exportAsMarkdown, exportAsHtml } from './utils/exporters';
 import type { AppSettings, MobileTab } from './types';
 import './App.css';
 
 function App() {
   // ===== State =====
-  const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
+  const [markdown, setMarkdown] = useState(() => getSavedDraft(DEFAULT_MARKDOWN));
   const [activeTab, setActiveTab] = useState<MobileTab>('editor');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isTemplateOpen, setIsTemplateOpen] = useState(false);
+  const [isImportUrlOpen, setIsImportUrlOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
   const [settings, setSettings] = useState<AppSettings>({
     paperSize: 'A4',
     printTheme: 'default',
     showPageNumbers: false,
+    fontFamily: 'Inter',
+    marginSize: 'normal',
+    headerText: '',
+    footerText: '',
   });
 
-  const debouncedMarkdown = useDebounce(markdown, 300);
+  const debouncedMarkdown = useDebounce(markdown, 400);
+
+  // ===== Auto-Save & Local History =====
+  useEffect(() => {
+    saveDraft(debouncedMarkdown);
+    if (debouncedMarkdown.trim()) {
+      saveToHistory(debouncedMarkdown);
+    }
+  }, [debouncedMarkdown]);
 
   // ===== Responsive Detection =====
   useEffect(() => {
@@ -38,7 +59,6 @@ function App() {
   // ===== File Upload =====
   const handleFileLoad = useCallback((content: string, _fileName: string) => {
     setMarkdown(content);
-    // Pada mobile, switch ke preview setelah upload
     setActiveTab('preview');
   }, []);
 
@@ -53,12 +73,20 @@ function App() {
     clearError,
   } = useFileUpload({ onFileLoad: handleFileLoad });
 
-  // ===== PDF Export =====
+  // ===== PDF & Multi-Format Export =====
   const { exportPdf } = usePdfExport({ settings });
 
   const handleExportPdf = useCallback(() => {
     exportPdf(markdown);
   }, [exportPdf, markdown]);
+
+  const handleExportMarkdown = useCallback(() => {
+    exportAsMarkdown(markdown);
+  }, [markdown]);
+
+  const handleExportHtml = useCallback(() => {
+    exportAsHtml(markdown);
+  }, [markdown]);
 
   // ===== Clear Editor =====
   const handleClear = useCallback(() => {
@@ -79,6 +107,11 @@ function App() {
         onClear={handleClear}
         onToggleSettings={() => setIsSettingsOpen(!isSettingsOpen)}
         onExportPdf={handleExportPdf}
+        onExportMarkdown={handleExportMarkdown}
+        onExportHtml={handleExportHtml}
+        onOpenHistory={() => setIsHistoryOpen(true)}
+        onOpenTemplates={() => setIsTemplateOpen(true)}
+        onOpenImportUrl={() => setIsImportUrlOpen(true)}
         isSettingsOpen={isSettingsOpen}
       />
 
@@ -117,12 +150,42 @@ function App() {
         )}
       </div>
 
-      {/* Settings Panel */}
+      {/* Modals & Panels */}
       {isSettingsOpen && (
         <SettingsPanel
           settings={settings}
           onSettingsChange={setSettings}
           onClose={() => setIsSettingsOpen(false)}
+        />
+      )}
+
+      {isHistoryOpen && (
+        <HistoryModal
+          onSelectHistory={(md) => {
+            setMarkdown(md);
+            setActiveTab('preview');
+          }}
+          onClose={() => setIsHistoryOpen(false)}
+        />
+      )}
+
+      {isTemplateOpen && (
+        <TemplateModal
+          onSelectTemplate={(md) => {
+            setMarkdown(md);
+            setActiveTab('preview');
+          }}
+          onClose={() => setIsTemplateOpen(false)}
+        />
+      )}
+
+      {isImportUrlOpen && (
+        <ImportUrlModal
+          onImport={(md) => {
+            setMarkdown(md);
+            setActiveTab('preview');
+          }}
+          onClose={() => setIsImportUrlOpen(false)}
         />
       )}
 

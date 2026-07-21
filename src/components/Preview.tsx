@@ -1,11 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import rehypeSanitize from 'rehype-sanitize';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FileText, Copy, Check } from 'lucide-react';
+import mermaid from 'mermaid';
+import 'katex/dist/katex.min.css';
 import './Preview.css';
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  securityLevel: 'loose',
+  fontFamily: 'Inter, sans-serif',
+});
+
+function MermaidDiagram({ code }: { code: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (containerRef.current) {
+      const id = `mermaid-${Math.random().toString(36).substring(2, 9)}`;
+      mermaid
+        .render(id, code)
+        .then(({ svg }) => {
+          if (isMounted && containerRef.current) {
+            containerRef.current.innerHTML = svg;
+          }
+        })
+        .catch(() => {
+          if (isMounted && containerRef.current) {
+            containerRef.current.innerHTML = `<pre class="mermaid-error">${code}</pre>`;
+          }
+        });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [code]);
+
+  return <div ref={containerRef} className="mermaid-container" />;
+}
+
+// Custom rehype sanitize schema to allow KaTeX classes and inline styles
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    '*': ['className', 'style', 'span', 'math'],
+    span: ['className', 'style', 'aria-hidden'],
+  },
+};
 
 interface PreviewProps {
   markdown: string;
@@ -19,6 +68,7 @@ export function Preview({ markdown }: PreviewProps) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
   if (!markdown.trim()) {
     return (
       <div className="preview" id="markdown-preview">
@@ -40,18 +90,23 @@ export function Preview({ markdown }: PreviewProps) {
       </button>
       <div className="markdown-body">
         <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeSanitize]}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[[rehypeSanitize, sanitizeSchema], rehypeKatex]}
           components={{
             code({ className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');
               const codeString = String(children).replace(/\n$/, '');
 
               if (match) {
+                const lang = match[1];
+                if (lang === 'mermaid') {
+                  return <MermaidDiagram code={codeString} />;
+                }
+
                 return (
                   <SyntaxHighlighter
                     style={oneDark}
-                    language={match[1]}
+                    language={lang}
                     PreTag="pre"
                     customStyle={{
                       margin: 0,
