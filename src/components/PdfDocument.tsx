@@ -110,12 +110,12 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
   const paper = PAPER_SIZE[settings.paperSize];
 
   const components = {
-    h1: ({ children }: any) => <Text style={theme.h1}>{processPdfChildren(children, 22)}</Text>,
-    h2: ({ children }: any) => <Text style={theme.h2}>{processPdfChildren(children, 18)}</Text>,
-    h3: ({ children }: any) => <Text style={theme.h3}>{processPdfChildren(children, 15)}</Text>,
-    h4: ({ children }: any) => <Text style={theme.h4}>{processPdfChildren(children, 13)}</Text>,
-    h5: ({ children }: any) => <Text style={theme.h5}>{processPdfChildren(children, 12)}</Text>,
-    h6: ({ children }: any) => <Text style={theme.h6}>{processPdfChildren(children, 11)}</Text>,
+    h1: ({ children }: any) => <Text style={theme.h1} wrap={false}>{processPdfChildren(children, 22)}</Text>,
+    h2: ({ children }: any) => <Text style={theme.h2} wrap={false}>{processPdfChildren(children, 18)}</Text>,
+    h3: ({ children }: any) => <Text style={theme.h3} wrap={false}>{processPdfChildren(children, 15)}</Text>,
+    h4: ({ children }: any) => <Text style={theme.h4} wrap={false}>{processPdfChildren(children, 13)}</Text>,
+    h5: ({ children }: any) => <Text style={theme.h5} wrap={false}>{processPdfChildren(children, 12)}</Text>,
+    h6: ({ children }: any) => <Text style={theme.h6} wrap={false}>{processPdfChildren(children, 11)}</Text>,
     p: ({ children }: any) => <Text style={theme.p}>{processPdfChildren(children, 11)}</Text>,
     a: ({ children, href }: any) => (
       <Link src={href} style={theme.a}>
@@ -131,7 +131,7 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
       const isOrdered = typeof index === 'number';
       const bulletText = isOrdered ? `${index + 1}.` : '•';
       return (
-        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+        <View style={{ flexDirection: 'row', marginBottom: 4 }} wrap={false}>
           <Text style={{ width: isOrdered ? 20 : 14, color: '#00838f', fontWeight: 600 }}>
             {bulletText}
           </Text>
@@ -142,7 +142,7 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
       );
     },
     blockquote: ({ children }: any) => (
-      <View style={theme.blockquote}>{processPdfChildren(children, 11)}</View>
+      <View style={theme.blockquote} wrap={false}>{processPdfChildren(children, 11)}</View>
     ),
     hr: () => <View style={theme.hr} />,
     code: ({ children, className }: any) => {
@@ -152,11 +152,11 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
       }
       return <Text style={theme.codeInline}>{processPdfChildren(String(children), 10)}</Text>;
     },
-    pre: ({ children }: any) => <View>{children}</View>,
+    pre: ({ children }: any) => <View wrap={false}>{children}</View>,
     table: ({ children }: any) => <View style={theme.table}>{children}</View>,
     thead: ({ children }: any) => <View>{children}</View>,
     tbody: ({ children }: any) => <View>{children}</View>,
-    tr: ({ children }: any) => <View style={{ flexDirection: 'row' }}>{children}</View>,
+    tr: ({ children }: any) => <View style={{ flexDirection: 'row' }} wrap={false}>{children}</View>,
     th: ({ children }: any) => (
       <View style={[theme.th, { flex: 1 }]}>
         <Text style={{ fontWeight: 600 }}>{processPdfChildren(children)}</Text>
