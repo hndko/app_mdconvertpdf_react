@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
-// @ts-ignore
-import html2pdf from 'html2pdf.js';
 import type { AppSettings } from '../types';
+import { registerPdfFonts } from '../utils/pdfFonts';
 
 interface UsePdfExportOptions {
   settings: AppSettings;
@@ -13,45 +12,35 @@ function extractTitle(markdown: string): string {
   return text || 'document';
 }
 
+function downloadBlob(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 export function usePdfExport({ settings }: UsePdfExportOptions) {
   const exportPdf = useCallback(
     async (markdown: string) => {
-      const element = document.querySelector('.markdown-body') as HTMLElement | null;
-      if (!element) return;
-
+      registerPdfFonts();
       const fileName = `${extractTitle(markdown)}.pdf`;
-      const isDark = settings.printTheme === 'default';
-      const exportClass = isDark ? 'export-pdf-dark' : 'export-pdf-light';
-      const bgColor = isDark ? '#0a0f14' : '#ffffff';
-
-      const opt = {
-        margin: [10, 10, 10, 10] as [number, number, number, number],
-        filename: fileName,
-        image: { type: 'jpeg' as const, quality: 0.98 },
-        html2canvas: { 
-          scale: 2, 
-          useCORS: true, 
-          logging: false,
-          backgroundColor: bgColor
-        },
-        jsPDF: { 
-          unit: 'mm', 
-          format: settings.paperSize.toLowerCase(), 
-          orientation: 'portrait' as const 
-        },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-
-      element.classList.add(exportClass);
-      try {
-        await html2pdf().set(opt).from(element).save();
-      } finally {
-        element.classList.remove(exportClass);
-      }
+      const [{ pdf }, { PdfDocument }] = await Promise.all([
+        import('@react-pdf/renderer'),
+        import('../components/PdfDocument'),
+      ]);
+      const blob = await pdf(
+        <PdfDocument markdown={markdown} settings={settings} fileName={fileName} />
+      ).toBlob();
+      downloadBlob(blob, fileName);
     },
     [settings]
   );
 
   return { exportPdf };
 }
+
 

@@ -24,9 +24,9 @@ function rehypeStripWhitespace() {
   return (tree: any) => strip(tree);
 }
 
-const PAPER_SIZE: Record<AppSettings['paperSize'], { width: string; height: string }> = {
-  A4: { width: '210mm', height: '297mm' },
-  Letter: { width: '215.9mm', height: '279.4mm' },
+const PAPER_SIZE: Record<AppSettings['paperSize'], 'A4' | 'LETTER'> = {
+  A4: 'A4',
+  Letter: 'LETTER',
 };
 
 export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) {
@@ -53,8 +53,8 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
     ol: ({ children }: any) => <View style={theme.ol}>{children}</View>,
     li: ({ children }: any) => (
       <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={{ width: 14 }}>•</Text>
-        <Text style={theme.li} wrap>
+        <Text style={{ width: 14, color: '#00838f' }}>•</Text>
+        <Text style={[theme.li, { flex: 1 }]} wrap>
           {children}
         </Text>
       </View>
@@ -70,7 +70,7 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
     },
     pre: ({ children }: any) => <View>{children}</View>,
     table: ({ children }: any) => (
-      <View style={theme.table} wrap={false}>
+      <View style={theme.table}>
         {children}
       </View>
     ),
@@ -95,8 +95,8 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
   return (
     <Document title={fileName} author="MariDocs">
       <Page
-        size={[paper.width, paper.height]}
-        style={{ paddingTop: 20, paddingBottom: 20, paddingHorizontal: 18, ...theme.body }}
+        size={paper}
+        style={{ paddingTop: 24, paddingBottom: 24, paddingHorizontal: 24, ...theme.body }}
       >
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
