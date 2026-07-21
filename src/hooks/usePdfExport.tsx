@@ -16,7 +16,7 @@ function extractTitle(markdown: string): string {
 export function usePdfExport({ settings }: UsePdfExportOptions) {
   const exportPdf = useCallback(
     async (markdown: string) => {
-      const element = document.querySelector('.markdown-body');
+      const element = document.querySelector('.markdown-body') as HTMLElement | null;
       if (!element) return;
 
       const fileName = `${extractTitle(markdown)}.pdf`;
@@ -24,9 +24,9 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
       const bgColor = isLightTheme ? '#ffffff' : '#0a0f14';
 
       const opt = {
-        margin: [12, 12, 12, 12],
+        margin: [12, 12, 12, 12] as [number, number, number, number],
         filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { 
           scale: 2, 
           useCORS: true, 
@@ -36,7 +36,7 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
         jsPDF: { 
           unit: 'mm', 
           format: settings.paperSize.toLowerCase(), 
-          orientation: 'portrait' 
+          orientation: 'portrait' as const 
         },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
