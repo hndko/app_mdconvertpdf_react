@@ -310,3 +310,120 @@
     font-size: 14px;
   }
 }
+
+/* ===== Export PDF Theme Styling (Fix for Invisible Text & High Contrast PDF) ===== */
+.markdown-body.export-pdf-light {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  padding: 24px !important;
+}
+
+.markdown-body.export-pdf-light h1,
+.markdown-body.export-pdf-light h2,
+.markdown-body.export-pdf-light h3,
+.markdown-body.export-pdf-light h4,
+.markdown-body.export-pdf-light h5,
+.markdown-body.export-pdf-light h6 {
+  color: #0f172a !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+.markdown-body.export-pdf-light p,
+.markdown-body.export-pdf-light li,
+.markdown-body.export-pdf-light td {
+  color: #334155 !important;
+}
+
+.markdown-body.export-pdf-light strong {
+  color: #0f172a !important;
+}
+
+.markdown-body.export-pdf-light em {
+  color: #475569 !important;
+}
+
+.markdown-body.export-pdf-light a {
+  color: #0284c7 !important;
+}
+
+.markdown-body.export-pdf-light :not(pre) > code {
+  background: #f1f5f9 !important;
+  color: #0369a1 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.markdown-body.export-pdf-light pre {
+  background: #1e1e2e !important;
+  border: 1px solid #334155 !important;
+}
+
+.markdown-body.export-pdf-light pre code {
+  color: #cdd6f4 !important;
+}
+
+.markdown-body.export-pdf-light blockquote {
+  background: #f0f9ff !important;
+  border-left: 4px solid #0284c7 !important;
+  color: #334155 !important;
+}
+
+.markdown-body.export-pdf-light table {
+  background: #ffffff !important;
+  display: table !important;
+  width: 100% !important;
+}
+
+.markdown-body.export-pdf-light th {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.markdown-body.export-pdf-light td {
+  color: #334155 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.markdown-body.export-pdf-light tbody tr:nth-child(even) {
+  background: #f8fafc !important;
+}
+
+.markdown-body.export-pdf-light hr {
+  border-top: 1px solid #cbd5e1 !important;
+}
+
+/* Dark PDF Mode */
+.markdown-body.export-pdf-dark {
+  background-color: #0a0f14 !important;
+  color: #e2edf5 !important;
+  padding: 24px !important;
+}
+
+.markdown-body.export-pdf-dark h1,
+.markdown-body.export-pdf-dark h2,
+.markdown-body.export-pdf-dark h3,
+.markdown-body.export-pdf-dark h4,
+.markdown-body.export-pdf-dark h5,
+.markdown-body.export-pdf-dark h6 {
+  color: #f1f5f9 !important;
+}
+
+.markdown-body.export-pdf-dark p,
+.markdown-body.export-pdf-dark li,
+.markdown-body.export-pdf-dark td {
+  color: #e2edf5 !important;
+}
+
+.markdown-body.export-pdf-dark strong {
+  color: #ffffff !important;
+}
+
+.markdown-body.export-pdf-dark th {
+  background: #12202c !important;
+  color: #f1f5f9 !important;
+}
+
+.markdown-body.export-pdf-dark td {
+  color: #cbd5e1 !important;
+}
+

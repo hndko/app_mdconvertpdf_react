@@ -20,11 +20,12 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
       if (!element) return;
 
       const fileName = `${extractTitle(markdown)}.pdf`;
-      const isLightTheme = settings.printTheme === 'github' || settings.printTheme === 'minimal';
-      const bgColor = isLightTheme ? '#ffffff' : '#0a0f14';
+      const isDark = settings.printTheme === 'default';
+      const exportClass = isDark ? 'export-pdf-dark' : 'export-pdf-light';
+      const bgColor = isDark ? '#0a0f14' : '#ffffff';
 
       const opt = {
-        margin: [12, 12, 12, 12] as [number, number, number, number],
+        margin: [10, 10, 10, 10] as [number, number, number, number],
         filename: fileName,
         image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { 
@@ -41,7 +42,12 @@ export function usePdfExport({ settings }: UsePdfExportOptions) {
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
-      html2pdf().set(opt).from(element).save();
+      element.classList.add(exportClass);
+      try {
+        await html2pdf().set(opt).from(element).save();
+      } finally {
+        element.classList.remove(exportClass);
+      }
     },
     [settings]
   );
