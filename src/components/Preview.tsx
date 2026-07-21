@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSanitize from 'rehype-sanitize';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { FileText } from 'lucide-react';
+import { FileText, Copy, Check } from 'lucide-react';
 import './Preview.css';
 
 interface PreviewProps {
@@ -11,6 +12,13 @@ interface PreviewProps {
 }
 
 export function Preview({ markdown }: PreviewProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(markdown);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
   if (!markdown.trim()) {
     return (
       <div className="preview" id="markdown-preview">
@@ -26,6 +34,10 @@ export function Preview({ markdown }: PreviewProps) {
 
   return (
     <div className="preview" id="markdown-preview">
+      <button onClick={handleCopy} className="preview__copy-btn" title="Copy Markdown">
+        {copied ? <Check size={16} className="text-success" /> : <Copy size={16} />}
+        <span>{copied ? 'Copied!' : 'Copy'}</span>
+      </button>
       <div className="markdown-body">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}

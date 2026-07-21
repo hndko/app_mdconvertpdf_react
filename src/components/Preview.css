@@ -4,6 +4,36 @@
   padding: 24px 32px;
   background: var(--color-bg-primary);
   animation: fadeIn var(--transition-normal) ease-out;
+  position: relative;
+}
+
+.preview__copy-btn {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+
+.preview__copy-btn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-accent);
+}
+
+.preview__copy-btn .text-success {
+  color: var(--color-success);
 }
 
 /* ===== Markdown Prose Styles ===== */
@@ -137,7 +167,7 @@
 
 /* Inline Code */
 .markdown-body :not(pre) > code {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
   font-size: 0.87em;
   padding: 0.2em 0.45em;
   background: rgba(0, 188, 212, 0.12);
@@ -158,7 +188,7 @@
 .markdown-body pre code {
   display: block;
   padding: 16px 20px;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
   font-size: 13px;
   line-height: 1.6;
   overflow-x: auto;

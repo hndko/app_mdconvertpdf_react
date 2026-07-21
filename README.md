@@ -1,247 +1,91 @@
-# MariDocs — Konversi Markdown ke PDF Instan 📄
-
-📄 Website konversi Markdown ke PDF berkualitas cetak — gratis, tanpa login, langsung di browser, dengan privasi data 100% terjamin.
-
----
+# MariDocs 📄 - Konversi Markdown ke PDF Instan
+Website konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara instan, 100% aman di browser tanpa login.
 
 ## 📑 Daftar Isi
-
 - [Deskripsi Proyek](#-deskripsi-proyek)
-- [Fitur Utama](#-fitur-utama)
-- [Tech Stack](#-tech-stack)
 - [Prasyarat](#-prasyarat)
 - [Instalasi](#-instalasi)
 - [Penggunaan](#-penggunaan)
-- [Struktur Proyek](#-struktur-proyek)
-- [Model Data & Peran](#-model-data--peran)
 - [Kontribusi](#-kontribusi)
 - [Lisensi](#-lisensi)
 
----
-
 ## 📌 Deskripsi Proyek
+**MariDocs** adalah aplikasi web yang ditujukan bagi developer dan penulis teknis untuk mengubah tulisan berformat Markdown menjadi dokumen PDF yang rapi. 
 
-**MariDocs** adalah aplikasi web yang memecahkan masalah umum bagi developer, penulis teknis, dan profesional yang menulis dalam Markdown namun membutuhkan output PDF yang rapi untuk dibagikan ke pihak non-teknis.
+**Masalah yang Diselesaikan:**
+* Alat konversi biasa memerlukan instalasi lokal (seperti Pandoc) yang merepotkan.
+* Layanan online sering kali berbayar, memberikan watermark, atau mengharuskan pendaftaran akun.
+* Hasil cetak ke PDF sering kali memiliki tipografi yang kurang rapi atau resolusi yang rendah.
 
-**Masalah yang diselesaikan:**
-- 🔧 Tools konversi umumnya butuh instalasi lokal (Pandoc, VS Code extension)
-- 💰 Layanan online sering berbayar, ber-watermark, atau wajib login
-- 🎨 Hasil PDF sering kurang rapi secara tipografi
-
-**Solusi:** Aplikasi berbasis browser yang menghasilkan PDF vektor berkualitas cetak — teks tajam, bisa di-search & di-copy, dengan pagination otomatis.
-
-**Ciri utama:**
-- ✅ Berjalan **100% di sisi klien** (client-side) — tidak ada server, tidak ada data yang dikirim keluar
-- ✅ Tanpa login, tanpa batasan, gratis digunakan
-
----
-
-## ✨ Fitur Utama
-
-- ✅ **Editor Markdown** — CodeMirror 6 dengan syntax highlighting
-- ✅ **Preview Real-Time** — render otomatis saat mengetik (debounce 300ms)
-- ✅ **Ekspor PDF Vektor** — unduh langsung via `@react-pdf/renderer`, teks asli (bisa di-select & search), tanpa dialog print browser
-- ✅ **Upload File .md** — drag & drop atau browse file dari komputer
-- ✅ **Split View** — editor (kiri) dan preview (kanan) di layar lebar
-- ✅ **Responsive Mobile** — tab switch (Editor / Preview) di layar kecil
-- ✅ **Kustomisasi PDF:**
-  - 📏 Ukuran kertas: A4 / Letter
-  - 🎨 Tema cetak: Default / GitHub Style / Minimal
-  - 🔢 Toggle nomor halaman di footer
-- ✅ **GFM Support** — tabel, strikethrough, task list, dan fitur GitHub Flavored Markdown
-- ✅ **Code Highlighting** — syntax highlighting untuk 100+ bahasa pemrograman
-- ✅ **Dark Mode** — tampilan elegan dengan desain modern
-- ✅ **Nama File Otomatis** — nama file PDF diambil dari heading H1 pertama
-
----
-
-## 🛠️ Tech Stack
-
-| Lapisan | Teknologi | Keterangan |
-|---|---|---|
-| **Build Tool** | Vite 8 | Build cepat, HMR instan |
-| **Framework** | React 19 | Komponen-based, TypeScript |
-| **Bahasa** | TypeScript ~6 | Type safety |
-| **Styling** | Vanilla CSS | Custom properties, dark mode |
-| **Markdown Parser** | react-markdown + remark-gfm | Render aman tanpa `dangerouslySetInnerHTML` |
-| **Syntax Highlighting** | react-syntax-highlighter (Prism) | 100+ bahasa pemrograman |
-| **Editor** | CodeMirror 6 (`@uiw/react-codemirror`) | Editor kaya fitur dengan markdown mode |
-| **PDF Generator** | `@react-pdf/renderer` (vector) | Unduh langsung, teks bisa di-select & search, dukungan page number native |
-| **Icons** | Lucide React | Ikon SVG yang konsisten |
-| **Font** | Inter + JetBrains Mono | Google Fonts |
-
----
+**Fitur Utama:**
+* **100% Client-Side:** Proses konversi berjalan sepenuhnya di browser sehingga privasi data Anda terjamin.
+* **Tanpa Login:** Aplikasi dapat diakses secara gratis tanpa batasan penggunaan.
+* **Editor Real-Time:** Dilengkapi CodeMirror 6 dengan fitur *syntax highlighting*.
+* **Ekspor Vektor PDF:** Menghasilkan dokumen dengan teks yang tajam, dapat disalin, dan dicari.
+* **Kustomisasi Cetak:** Mendukung pilihan ukuran kertas (A4/Letter), tema cetak, dan penomoran halaman.
 
 ## 📋 Prasyarat
-
-Pastikan perangkat Anda memenuhi versi minimum berikut:
-
-| Software | Versi Minimum | Cara Cek |
-|---|---|---|
-| **Node.js** | 18.0.0 | `node --version` |
-| **npm** | 9.0.0 | `npm --version` |
-
----
+Pastikan perangkat Anda sudah terpasang perangkat lunak dengan versi minimum berikut:
+* **Node.js**: v18.0.0 atau lebih baru
+* **npm**: v9.0.0 atau lebih baru
+* **React**: v19.2.7
+* **TypeScript**: v6.0.3
+* **Vite**: v8.1.5
 
 ## ⚙️ Instalasi
+Ikuti langkah-langkah perintah terminal di bawah ini untuk memasang proyek secara lokal:
 
-1. **Clone repository:**
-
+1. Clone repository ke dalam perangkat lokal:
 ```bash
 git clone https://github.com/username/maridocs.git
 cd maridocs
 ```
 
-2. **Install dependencies:**
-
+2. Pasang semua dependensi yang dibutuhkan:
 ```bash
 npm install
 ```
 
-3. **Jalankan development server:**
-
+3. Jalankan server pengembangan (*development server*):
 ```bash
 npm run dev
 ```
-
-4. **Buka browser:** Akses `http://localhost:5173`
-
----
 
 ## 🚀 Penggunaan
+Setelah server pengembangan berjalan, Anda dapat mengakses aplikasi pada browser di `http://localhost:5173`. Berikut adalah contoh penggunaan aplikasi:
 
-### Menjalankan Development Server
-
-```bash
-npm run dev
-```
-
-Server berjalan di `http://localhost:5173` dengan Hot Module Replacement (HMR).
-
-### Build untuk Production
-
-```bash
-npm run build
-```
-
-Output tersedia di folder `dist/`.
-
-### Preview Build Production
-
-```bash
-npm run preview
-```
-
-### Cara Menggunakan Aplikasi
-
-1. **Ketik** teks Markdown di panel editor (kiri)
-2. **Preview** diperbarui otomatis di panel kanan
-3. **Upload** file `.md` dengan drag & drop atau tombol "Upload .md"
-4. Klik **⚙️ Settings** untuk mengatur ukuran kertas, tema cetak, dan nomor halaman
-5. Klik **📥 Unduh PDF** untuk mengekspor dokumen
-
-> 💡 **Tips:** Gunakan heading H1 (`# Judul`) di awal dokumen — nama file PDF otomatis mengikuti heading H1 pertama.
-
----
-
-## 📁 Struktur Proyek
-
-```
-maridocs/
-├── public/
-│   └── favicon.svg               # Ikon favicon
-├── src/
-│   ├── components/
-│   │   ├── Editor.tsx             # Editor CodeMirror 6
-│   │   ├── Header.tsx             # Header dengan logo
-│   │   ├── MobileTabSwitch.tsx    # Tab Editor/Preview (mobile)
-│   │   ├── Preview.tsx            # Preview Markdown real-time
-│   │   ├── SettingsPanel.tsx      # Panel pengaturan PDF
-│   │   └── Toolbar.tsx            # Toolbar aksi
-│   ├── hooks/
-│   │   ├── useDebounce.ts         # Hook debounce
-│   │   ├── useFileUpload.ts       # Hook upload file
-│   │   └── usePdfExport.ts        # Hook ekspor PDF
-│   ├── types/
-│   │   └── index.ts               # TypeScript types
-│   ├── utils/
-│   │   ├── defaultMarkdown.ts     # Konten default editor
-│   │   └── printStyles.ts         # CSS generator untuk PDF
-│   ├── App.tsx                    # Komponen utama
-│   ├── main.tsx                   # Entry point
-│   └── index.css                  # Design system & tokens
-├── index.html                     # HTML template
-├── package.json
-├── vite.config.ts
-├── vercel.json                    # Konfigurasi Vercel
-└── netlify.toml                   # Konfigurasi Netlify
-```
-
----
-
-## 🗄️ Model Data & Peran
-
-### Struktur Data
-
-Aplikasi ini **tidak menggunakan database**. Seluruh proses berjalan di sisi klien (browser) dan tidak ada penyimpanan persisten di server. Satu-satunya struktur data terdefinisi adalah tipe pengaturan PDF (`src/types/index.ts`):
-
-```ts
-interface AppSettings {
-  paperSize: 'A4' | 'Letter';
-  printTheme: 'default' | 'github' | 'minimal';
-  showPageNumbers: boolean;
-}
-
-type MobileTab = 'editor' | 'preview';
-```
-
-Data lain (teks Markdown, file yang di-upload) hanya disimpan sementara di memori React state selama sesi berlangsung.
-
-### Peran Pengguna
-
-| Peran | Keterangan |
-|---|---|
-| 👤 **Pengguna (Guest)** | Satu-satunya tipe pengguna. Tidak ada login, autentikasi, atau otorisasi. Semua fitur tersedia secara bebas untuk setiap pengunjung. |
-
-> 🔒 Karena tidak ada backend, tidak ada pembagian hak akses (role-based access control). Semua pengguna memiliki akses penuh ke seluruh fitur.
-
----
+* **Menulis Markdown:**
+  Ketik format Markdown langsung pada panel editor di sebelah kiri.
+  ```markdown
+  # Judul Dokumen
+  Ini adalah contoh paragraf di dalam aplikasi **MariDocs**.
+  ```
+* **Melihat Preview:**
+  Panel sebelah kanan akan langsung memperbarui hasil *render* Markdown Anda secara *real-time*.
+* **Mengunggah File:**
+  Gunakan fitur *drag & drop* atau klik tombol unggah untuk memasukkan file `.md` dari komputer Anda.
+* **Mengunduh PDF:**
+  Klik tombol unduh untuk menyimpan hasil dokumen dalam bentuk PDF (nama file akan otomatis mengikuti *heading* H1 pertama dokumen Anda).
 
 ## 🤝 Kontribusi
-
-Kontribusi sangat diterima! Untuk berkontribusi:
-
-1. **Fork** repository ini
-2. **Buat branch** fitur baru:
-   ```bash
-   git checkout -b fitur/nama-fitur
-   ```
-3. **Commit** perubahan Anda:
-   ```bash
-   git commit -m "feat: tambah fitur baru"
-   ```
-4. **Push** ke branch:
-   ```bash
-   git push origin fitur/nama-fitur
-   ```
-5. Buat **Pull Request** di GitHub
-
-### Aturan Kontribusi
-
-- 📝 Gunakan format [Conventional Commits](https://www.conventionalcommits.org/)
-- ✅ Pastikan lolos TypeScript type check: `npx tsc --noEmit`
-- ✅ Pastikan build berhasil: `npm run build`
-- 📋 Sertakan deskripsi yang jelas di Pull Request
-
----
+Pengembang luar sangat diizinkan untuk ikut memperbarui kode proyek ini. Silakan ikuti aturan berikut:
+* Lakukan *Fork* pada *repository* ini.
+* Buat *branch* baru untuk fitur atau perbaikan Anda:
+  ```bash
+  git checkout -b fitur/nama-fitur-baru
+  ```
+* Gunakan gaya penulisan *Conventional Commits* untuk pesan *commit* Anda.
+* Pastikan kode lulus pengecekan tipe data TypeScript:
+  ```bash
+  npx tsc --noEmit
+  ```
+* Kirim *Pull Request* dengan deskripsi perubahan yang jelas dan rinci.
 
 ## 📜 Lisensi
+Proyek ini didistribusikan di bawah lisensi **MIT**.
 
-Proyek ini dilisensikan di bawah **MIT License**.
-
-```
+```text
 MIT License
-
 Copyright (c) 2026 MariDocs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
