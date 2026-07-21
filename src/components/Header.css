@@ -20,6 +20,15 @@
   text-decoration: none;
 }
 
+.header__logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-glow);
+}
+
 .header__logo {
   width: 36px;
   height: 36px;
