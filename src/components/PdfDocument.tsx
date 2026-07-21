@@ -24,6 +24,41 @@ function rehypeStripWhitespace() {
   return (tree: any) => strip(tree);
 }
 
+// Clean string function to strip emojis and unprintable surrogate pairs causing garbled text (=Ä, <%, ™) in @react-pdf
+function cleanString(str: string): string {
+  if (!str) return str;
+  return str
+    .replace(/📄/g, '')
+    .replace(/🎉/g, '!')
+    .replace(/⚙️|⚙/g, '')
+    .replace(/📥/g, '')
+    .replace(/✅/g, '✓')
+    .replace(/⚡/g, '')
+    .replace(/🔧/g, '')
+    .replace(/💰/g, '')
+    .replace(/🎨/g, '')
+    .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '');
+}
+
+function processPdfChildren(children: any): any {
+  if (typeof children === 'string') {
+    return cleanString(children);
+  }
+  if (Array.isArray(children)) {
+    return children.map(processPdfChildren);
+  }
+  if (children && typeof children === 'object' && children.props && children.props.children) {
+    return {
+      ...children,
+      props: {
+        ...children.props,
+        children: processPdfChildren(children.props.children),
+      },
+    };
+  }
+  return children;
+}
+
 const PAPER_SIZE: Record<AppSettings['paperSize'], 'A4' | 'LETTER'> = {
   A4: 'A4',
   Letter: 'LETTER',
@@ -34,54 +69,62 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
   const paper = PAPER_SIZE[settings.paperSize];
 
   const components = {
-    h1: ({ children }: any) => <Text style={theme.h1}>{children}</Text>,
-    h2: ({ children }: any) => <Text style={theme.h2}>{children}</Text>,
-    h3: ({ children }: any) => <Text style={theme.h3}>{children}</Text>,
-    h4: ({ children }: any) => <Text style={theme.h4}>{children}</Text>,
-    h5: ({ children }: any) => <Text style={theme.h5}>{children}</Text>,
-    h6: ({ children }: any) => <Text style={theme.h6}>{children}</Text>,
-    p: ({ children }: any) => <Text style={theme.p}>{children}</Text>,
+    h1: ({ children }: any) => <Text style={theme.h1}>{processPdfChildren(children)}</Text>,
+    h2: ({ children }: any) => <Text style={theme.h2}>{processPdfChildren(children)}</Text>,
+    h3: ({ children }: any) => <Text style={theme.h3}>{processPdfChildren(children)}</Text>,
+    h4: ({ children }: any) => <Text style={theme.h4}>{processPdfChildren(children)}</Text>,
+    h5: ({ children }: any) => <Text style={theme.h5}>{processPdfChildren(children)}</Text>,
+    h6: ({ children }: any) => <Text style={theme.h6}>{processPdfChildren(children)}</Text>,
+    p: ({ children }: any) => <Text style={theme.p}>{processPdfChildren(children)}</Text>,
     a: ({ children, href }: any) => (
       <Link src={href} style={theme.a}>
-        {children}
+        {processPdfChildren(children)}
       </Link>
     ),
-    strong: ({ children }: any) => <Text style={theme.strong}>{children}</Text>,
-    em: ({ children }: any) => <Text style={theme.em}>{children}</Text>,
-    del: ({ children }: any) => <Text style={theme.del}>{children}</Text>,
+    strong: ({ children }: any) => <Text style={theme.strong}>{processPdfChildren(children)}</Text>,
+    em: ({ children }: any) => <Text style={theme.em}>{processPdfChildren(children)}</Text>,
+    del: ({ children }: any) => <Text style={theme.del}>{processPdfChildren(children)}</Text>,
     ul: ({ children }: any) => <View style={theme.ul}>{children}</View>,
     ol: ({ children }: any) => <View style={theme.ol}>{children}</View>,
-    li: ({ children }: any) => (
-      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={{ width: 14, color: '#00838f' }}>•</Text>
-        <Text style={[theme.li, { flex: 1 }]} wrap>
-          {children}
-        </Text>
-      </View>
+    li: ({ children, index }: any) => {
+      const isOrdered = typeof index === 'number';
+      const bulletText = isOrdered ? `${index + 1}.` : '•';
+      return (
+        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+          <Text style={{ width: isOrdered ? 20 : 14, color: '#00838f', fontWeight: 600 }}>
+            {bulletText}
+          </Text>
+          <Text style={[theme.li, { flex: 1 }]} wrap>
+            {processPdfChildren(children)}
+          </Text>
+        </View>
+      );
+    },
+    blockquote: ({ children }: any) => (
+      <View style={theme.blockquote}>{processPdfChildren(children)}</View>
     ),
-    blockquote: ({ children }: any) => <View style={theme.blockquote}>{children}</View>,
     hr: () => <View style={theme.hr} />,
     code: ({ children, className }: any) => {
       const isBlock = /language-/.test(className || '');
       if (isBlock) {
-        return <Text style={theme.pre}>{String(children).replace(/\n$/, '')}</Text>;
+        return <Text style={theme.pre}>{cleanString(String(children)).replace(/\n$/, '')}</Text>;
       }
-      return <Text style={theme.codeInline}>{children}</Text>;
+      return <Text style={theme.codeInline}>{cleanString(String(children))}</Text>;
     },
     pre: ({ children }: any) => <View>{children}</View>,
-    table: ({ children }: any) => (
-      <View style={theme.table}>
-        {children}
-      </View>
-    ),
+    table: ({ children }: any) => <View style={theme.table}>{children}</View>,
     thead: ({ children }: any) => <View>{children}</View>,
     tbody: ({ children }: any) => <View>{children}</View>,
     tr: ({ children }: any) => <View style={{ flexDirection: 'row' }}>{children}</View>,
     th: ({ children }: any) => (
-      <View style={[theme.th, { flex: 1 }]}><Text style={{ fontWeight: 600 }}>{children}</Text></View>
+      <View style={[theme.th, { flex: 1 }]}>
+        <Text style={{ fontWeight: 600 }}>{processPdfChildren(children)}</Text>
+      </View>
     ),
     td: ({ children }: any) => (
-      <View style={[theme.td, { flex: 1 }]}><Text>{children}</Text></View>
+      <View style={[theme.td, { flex: 1 }]}>
+        <Text>{processPdfChildren(children)}</Text>
+      </View>
     ),
     img: ({ src, alt }: any) => {
       try {
@@ -96,7 +139,7 @@ export function PdfDocument({ markdown, settings, fileName }: PdfDocumentProps) 
     <Document title={fileName} author="MariDocs">
       <Page
         size={paper}
-        style={{ paddingTop: 24, paddingBottom: 24, paddingHorizontal: 24, ...theme.body }}
+        style={{ paddingTop: 24, paddingBottom: 28, paddingHorizontal: 24, ...theme.body }}
       >
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
