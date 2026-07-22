@@ -7,6 +7,7 @@ Website konversi teks Markdown menjadi dokumen PDF berkualitas cetak secara inst
 - [Prasyarat](#-prasyarat)
 - [Instalasi](#-instalasi)
 - [Penggunaan](#-penggunaan)
+- [Deployment (Vercel, Netlify, VPS)](#-deployment)
 - [Kontribusi](#-kontribusi)
 - [Lisensi](#-lisensi)
 
@@ -83,6 +84,9 @@ Setelah server pengembangan berjalan, Anda dapat mengakses aplikasi pada browser
   Panel sebelah kanan akan langsung memperbarui hasil *render* Markdown Anda secara *real-time*.
 * **Mengunduh PDF / Markdown / HTML:**
   Klik tombol **Unduh PDF** atau pilih opsi ekspor lainnya melalui tombol dropdown.
+
+## 🌐 Deployment
+Panduan langkah demi langkah untuk melakukan *deployment* ke **Vercel**, **Netlify**, maupun **VPS Linux (Nginx + SSL)** dapat dilihat secara lengkap di dokumen [DEPLOYMENT.md](file:///d:/laragon\www\app_mdconvertpdf_react\DEPLOYMENT.md).
 
 ## 🤝 Kontribusi
 Pengembang luar sangat diizinkan untuk ikut memperbarui kode proyek ini. Silakan ikuti aturan berikut:
