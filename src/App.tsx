@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Code2, Eye, Upload, X } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Header } from './components/Header';
 import { Toolbar } from './components/Toolbar';
 import { Editor } from './components/Editor';
@@ -209,6 +210,8 @@ function App() {
           </button>
         </div>
       )}
+
+      <SpeedInsights />
     </div>
   );
 }
